@@ -22,6 +22,54 @@ void InsertAtHead(Node **head, int data)
     *head = newNode;       // update head to new node as head node
 }
 
+// now lets write a function which inserts at tail ,meaning insertion at end
+void InsertAtEnd(Node **head, int data)
+{
+    // allocate a new node
+    Node *NewNode = malloc(sizeof(Node));
+    if (NewNode == NULL)
+    {
+        printf("sorry memory allocation failed ,duh!");
+    }
+    NewNode->data = data; // initalize the node data
+    NewNode->next = NULL;
+    if (*head == NULL) // check if there are no nodes and if there happens to be none then you are supposed to point head to NewNode
+    {
+        *head = NewNode; // NewNode becomes head if no other node is present
+        return;
+    }
+    Node *temp = *head; // making a temp node to iterate over the Nodes and check the node which has NULL in its "next" field
+    while (temp->next != NULL)
+    {
+        temp = temp->next;
+    }
+    temp->next = NewNode;
+}
+
+// lets write a function that deletes a node by value
+
+void Delete(Node **head, int val)
+{
+    Node *temp = *head;
+    Node *prev = NULL;
+    while (temp != NULL && temp->data != val)
+    {
+        prev = temp;
+        temp = temp->next;
+    }
+    if (temp == NULL)
+        return;
+    if (prev == NULL)
+    {
+        *head = temp->next;
+    }
+    else
+    {
+        prev->next = temp->next;
+    }
+    free(temp);
+}
+
 // print the whole list
 void PrintLinkedList(Node *head)
 {
@@ -50,9 +98,13 @@ int main()
 {
     Node *head = NULL;
     InsertAtHead(&head, 5);
-    InsertAtHead(&head, 10);
-    InsertAtHead(&head, 15);
-    InsertAtHead(&head, 20);
+    InsertAtEnd(&head, 10);
+    InsertAtEnd(&head, 15);
+    InsertAtEnd(&head, 20);
+    Delete(&head, 15);
+    // InsertAtEnd(&head, 15);
+    // InsertAtEnd(&head, 20);
     PrintLinkedList(head);
+    FreeList(head);
     return 0;
 }
